@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -31,5 +32,9 @@ public class WorkerEntity {
     @OneToMany
     @NotNull(message= "Add at least one skill set")
     private List<String> skillSet;
+
+    @OneToMany
+    @Nullable
+    private List<TaskEntity> tasksList;
 
 }
