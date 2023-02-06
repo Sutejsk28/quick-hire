@@ -19,7 +19,7 @@ public class UserEntity {
     private Long userId;
 
     @NotBlank(message = "Name of the user cannot be blank")
-    private String name;
+    private String username;
 
     @NotBlank(message = "Password is required")
     private String password;
