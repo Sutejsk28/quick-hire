@@ -3,8 +3,10 @@ package com.sutej.QuickHire.Enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public enum TaskStatus {
-    NOT_ASSIGN,ONGOING,COMPLETED
+
+    NOT_ASSIGNED, ON_GOING, COMPLETED
+
 }

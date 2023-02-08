@@ -26,14 +26,13 @@ public class WorkerEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @NotBlank(message = "Experience cannor be blank")
+    @NotBlank(message = "Experience cannot be blank")
     private int experience;
 
-    @OneToMany
     @NotNull(message= "Add at least one skill set")
     private List<String> skillSet;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @Nullable
     private List<TaskEntity> tasksList;
 

@@ -24,8 +24,7 @@ public class TaskEntity {
     private String name;
     private String description;
 
-    @OneToMany
-    private TaskCategoryEntity taskCategory;
+    private Long categoryId;
 
     private Double latitude;
     private Double longitude;
@@ -37,7 +36,7 @@ public class TaskEntity {
 
     private Rating rating;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "worker_id")
     private WorkerEntity assignedWorker;
 
