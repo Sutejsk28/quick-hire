@@ -9,6 +9,7 @@ import com.sutej.QuickHire.Enums.Rating;
 import com.sutej.QuickHire.Enums.TaskStatus;
 import com.sutej.QuickHire.Repository.TaskCategoryRepository;
 import com.sutej.QuickHire.Repository.TaskRepository;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 @Data
 public class TaskServices {
@@ -59,7 +61,6 @@ public class TaskServices {
         if (!task.isPresent()){
             throw new RuntimeException("task not found");
         }
-        System.out.println(taskStatus.name());
         task.get().setStatus(taskStatus);
         return taskRepository.save(task.get());
     }
