@@ -8,7 +8,6 @@ import com.sutej.QuickHire.Enums.TaskStatus;
 import com.sutej.QuickHire.Repository.TaskCategoryRepository;
 import com.sutej.QuickHire.Repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,9 +16,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TaskServicesTest {
@@ -89,19 +90,16 @@ class TaskServicesTest {
     }
 
     @Test
-    @Disabled
     void getTaskById() {
         //given
-        long id = task.getTaskId();
+        Long id = 201L;
+        when(taskRepository.findById(id)).thenReturn(Optional.ofNullable(task));
 
         //when
         taskServices.getTaskById(id);
 
         //then
-        ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(long.class);
-        verify(taskRepository).findById(longArgumentCaptor.capture());
-        Long capturedId = longArgumentCaptor.getValue();
-        assertThat(capturedId).isEqualTo(id);
+        verify(taskRepository).findById(id);
     }
 
     @Test
@@ -129,45 +127,33 @@ class TaskServicesTest {
     }
 
     @Test
-    @Disabled
     void updateStatus() {
         //given
-        Long id = task.getTaskId();
+        Long id = 201L;
+        when(taskRepository.findById(id)).thenReturn(Optional.ofNullable(task));
+        when(taskRepository.save(task)).thenReturn(task);
         TaskStatus status = TaskStatus.ON_GOING;
 
         //when
         taskServices.updateStatus(id,status);
 
         //then
-        ArgumentCaptor<Long> idArgumentCaptor = ArgumentCaptor.forClass(Long.class);
-        ArgumentCaptor<TaskEntity> taskArgumentCaptor = ArgumentCaptor.forClass(task.getClass());
-        verify(taskRepository).findById(idArgumentCaptor.capture());
-        verify(taskRepository).save(taskArgumentCaptor.capture());
-        Long capturedId = idArgumentCaptor.getValue();
-        TaskEntity capturedTask = taskArgumentCaptor.getValue();
-        assertThat(capturedId).isEqualTo(id);
-        assertThat(capturedTask.getTaskId()).isEqualTo(task.getTaskId());
+        verify(taskRepository).save(task);
     }
 
     @Test
-    @Disabled
     void updateRating() {
         //given
-        Long id = task.getTaskId();
+        Long id = 201L;
+        when(taskRepository.findById(id)).thenReturn(Optional.ofNullable(task));
+        when(taskRepository.save(task)).thenReturn(task);
         Rating rating = Rating.FIVE;
 
         //when
         taskServices.updateRating(id,rating);
 
         //then
-        ArgumentCaptor<Long> longArgumentCapture = ArgumentCaptor.forClass(Long.class);
-        ArgumentCaptor<TaskEntity> taskEntityArgumentCaptor = ArgumentCaptor.forClass(TaskEntity.class);
-        verify(taskRepository).findById(longArgumentCapture.capture());
-        verify(taskRepository).save(taskEntityArgumentCaptor.capture());
-        Long capturedId = longArgumentCapture.getValue();
-        TaskEntity capturedTaskEntity = taskEntityArgumentCaptor.getValue();
-        assertThat(capturedId).isEqualTo(id);
-        assertThat(capturedTaskEntity).isEqualTo(task);
+        verify(taskRepository).save(task);
     }
 
     @Test
