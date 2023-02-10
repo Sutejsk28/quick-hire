@@ -22,7 +22,7 @@ public class WorkerEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long workerId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "userId")
     private UserEntity user;
 
