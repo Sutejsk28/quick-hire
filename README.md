@@ -1,9 +1,3 @@
-Quick Hire is a hiring portal where users can hire workers for certain tasks. It's built on the Spring boot framework and exposes REST API. It has task, worker, and user entities.
-
-Quick Hire uses Spring data JPA for database connection. It also uses JWT-based authentication and Spring security for authentication.
-
-
-
 # Quick-Hire
 Quick-Hire is a backend application built on Spring Boot. It uses a MySQL database, with Spring Data JPA being used to connect to the database, and exposes a REST API for various services such as creating workers, users, and tasks. Additionally, it has a JWT-based authentication scheme and utilizes Spring Security for its implementation.
 
