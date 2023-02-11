@@ -29,9 +29,9 @@ public class WorkerController {
         return new ResponseEntity<WorkerEntity>(workerServices.addWorker(workerRequest), HttpStatus.OK);
     }
 
-    @GetMapping("/all-tasks")
-    public ResponseEntity<List<TaskEntity>> getAllTasksByWorker(){
-        return new ResponseEntity<List<TaskEntity>>(workerServices.getAllTasksByWorker(), HttpStatus.OK);
+    @GetMapping("/{id}/all-tasks")
+    public ResponseEntity<List<TaskEntity>> getAllTasksByWorker(@RequestParam Long id){
+        return new ResponseEntity<List<TaskEntity>>(workerServices.getAllTasksByWorker(id), HttpStatus.OK);
     }
 
 }

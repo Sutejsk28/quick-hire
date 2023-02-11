@@ -34,6 +34,7 @@ public class WorkerServices {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+        updatedAuthorities.clear();
         updatedAuthorities.add(new SimpleGrantedAuthority(Roles.WORKER.getName()));
 
         Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
@@ -56,10 +57,8 @@ public class WorkerServices {
     }
 
 
-    public List<TaskEntity> getAllTasksByWorker() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = (UserEntity) authentication.getPrincipal();
-        WorkerEntity worker = workerRepository.findByUser(user).orElseThrow();
+    public List<TaskEntity> getAllTasksByWorker(Long id) {
+        WorkerEntity worker = workerRepository.findById(id).orElseThrow();
         return worker.getTasksList();
     }
 }

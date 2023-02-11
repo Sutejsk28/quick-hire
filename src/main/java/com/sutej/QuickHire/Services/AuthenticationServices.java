@@ -9,6 +9,7 @@ import com.sutej.QuickHire.Repository.UserRepository;
 import com.sutej.QuickHire.Security.JwtProvider;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,7 @@ import java.time.Instant;
 @Service
 @Data
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationServices {
 
     @Autowired
@@ -45,6 +47,7 @@ public class AuthenticationServices {
 
         userRepository.save(user);
         String jwt = getJwtProvider().generateToken(user);
+        log.debug(jwt);
         return AuthenticationResponse.builder()
                 .authenticationToken(jwt)
                 .build();
