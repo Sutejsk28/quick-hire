@@ -54,6 +54,11 @@ public class TaskController {
         return new ResponseEntity<TaskEntity>(taskServices.createNewTask(taskRequest), HttpStatus.ACCEPTED);
     }
 
+    @PostMapping("/assign-worker")
+    public ResponseEntity<TaskEntity> assignWorker(@RequestBody String workerName, Long taskId){
+        return new ResponseEntity<TaskEntity>(taskServices.assignWorker(workerName, taskId), HttpStatus.OK);
+    }
+
     @PutMapping("/{id}/status")
     public ResponseEntity<TaskEntity> updateStatus(@PathVariable("id") Long id, @RequestParam String status) {
         TaskStatus taskStatus = TaskStatus.valueOf(status);

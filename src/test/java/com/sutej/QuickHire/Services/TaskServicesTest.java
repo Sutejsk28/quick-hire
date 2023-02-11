@@ -7,6 +7,8 @@ import com.sutej.QuickHire.Enums.Rating;
 import com.sutej.QuickHire.Enums.TaskStatus;
 import com.sutej.QuickHire.Repository.TaskCategoryRepository;
 import com.sutej.QuickHire.Repository.TaskRepository;
+import com.sutej.QuickHire.Repository.UserRepository;
+import com.sutej.QuickHire.Repository.WorkerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +29,8 @@ class TaskServicesTest {
 
     @Mock private TaskRepository taskRepository;
     @Mock private TaskCategoryRepository taskCategoryRepository;
+    @Mock private UserRepository userRepository;
+    @Mock private WorkerRepository workerRepository;
     @Autowired TaskEntity task;
     TaskServices taskServices;
 
@@ -44,7 +48,7 @@ class TaskServicesTest {
                 Rating.FOUR,
                 null
         );
-        taskServices = new TaskServices(taskRepository,taskCategoryRepository);
+        taskServices = new TaskServices(taskRepository,userRepository,workerRepository,taskCategoryRepository);
     }
 
     @Test

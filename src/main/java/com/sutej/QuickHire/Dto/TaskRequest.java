@@ -11,11 +11,8 @@ import lombok.NoArgsConstructor;
 public class TaskRequest {
     private String name;
     private String description;
-
     private Long categoryId;
-
     private Double latitude;
     private Double longitude;
-
     private Rating rating;
 }

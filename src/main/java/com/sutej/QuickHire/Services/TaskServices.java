@@ -5,10 +5,14 @@ import com.sutej.QuickHire.Dto.TaskMapper;
 import com.sutej.QuickHire.Dto.TaskRequest;
 import com.sutej.QuickHire.Entities.TaskCategoryEntity;
 import com.sutej.QuickHire.Entities.TaskEntity;
+import com.sutej.QuickHire.Entities.UserEntity;
+import com.sutej.QuickHire.Entities.WorkerEntity;
 import com.sutej.QuickHire.Enums.Rating;
 import com.sutej.QuickHire.Enums.TaskStatus;
 import com.sutej.QuickHire.Repository.TaskCategoryRepository;
 import com.sutej.QuickHire.Repository.TaskRepository;
+import com.sutej.QuickHire.Repository.UserRepository;
+import com.sutej.QuickHire.Repository.WorkerRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +28,10 @@ public class TaskServices {
 
     @Autowired
     private TaskRepository taskRepository;
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private WorkerRepository workerRepository;
     @Autowired
     private TaskCategoryRepository taskCategoryRepository;
 
@@ -81,4 +88,15 @@ public class TaskServices {
     }
 
 
+    public TaskEntity assignWorker(String workerName, Long taskId) {
+        UserEntity user = userRepository.findByUsername(workerName).orElseThrow();
+        WorkerEntity worker = workerRepository.findByUser(user).orElseThrow();
+        TaskEntity task = taskRepository.findById(taskId).orElseThrow();
+        task.setAssignedWorker(worker);
+        task.setStatus(TaskStatus.ON_GOING);
+        taskRepository.save(task);
+        worker.getTasksList().add(task);
+        workerRepository.save(worker);
+        return task;
+    }
 }
