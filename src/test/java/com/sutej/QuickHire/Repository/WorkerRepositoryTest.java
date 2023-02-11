@@ -18,20 +18,28 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @DataJpaTest
-class TaskRepositoryTest {
+class WorkerRepositoryTest {
+
+    @Autowired
+    WorkerRepository workerRepository;
 
     @Autowired
     TaskRepository taskRepository;
 
     @Autowired
-    WorkerRepository workerRepository;
-    @Autowired
     UserRepository userRepository;
 
     @Test
-    void findAllOrderByLoc() {
-
+    void findByUser() {
         //given
+        WorkerEntity worker = new WorkerEntity();
+
+        worker.setExperience(2);
+
+        List<String> skillSet = new ArrayList<>();
+        skillSet.add("communication"); skillSet.add("coding");
+        worker.setSkillSet(skillSet);
+
         UserEntity user = new UserEntity();
         user.setUsername("sutej");
         user.setEmail("sutej@123.com");
@@ -41,14 +49,11 @@ class TaskRepositoryTest {
         user.setCity("Belagavi");
         user.setCountry("India");
         user.setRoles(Roles.USER);
-
         userRepository.save(user);
-        WorkerEntity worker = new WorkerEntity();
-        worker.setTasksList(new ArrayList<>());
-        worker.setSkillSet(new ArrayList<>());
         worker.setUser(user);
-        worker.setExperience(2);
-        workerRepository.save(worker);
+
+        List<TaskEntity> tasksList = new ArrayList<>(3);
+        worker.setTasksList(tasksList);
         LocalDateTime createdTime1 = LocalDateTime.MAX;
         TaskEntity task1 = new TaskEntity();
         task1.setName("foo1");
@@ -89,14 +94,15 @@ class TaskRepositoryTest {
         task3.setAssignedWorker(worker);
         task3.setRating(Rating.THREE);
         taskRepository.save(task3);
+        worker.getTasksList().add(task3);
+
+        workerRepository.save(worker);
 
         //when
-        List<TaskEntity> tasks = taskRepository.findAllOrderByLoc(433442d,767244d);
+        WorkerEntity worker1 = workerRepository.findByUser(user).orElseThrow();
 
         //then
-        assertThat(tasks.get(0).getCreatedTime()).isEqualTo(task1.getCreatedTime());
-        assertThat(tasks.get(1).getCreatedTime()).isEqualTo(task2.getCreatedTime());
-        assertThat(tasks.get(2).getCreatedTime()).isEqualTo(task3.getCreatedTime());
+        assertThat(worker1).isEqualTo(worker);
 
     }
 }
